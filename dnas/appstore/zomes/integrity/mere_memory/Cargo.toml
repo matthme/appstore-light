@@ -1,0 +1,19 @@
+[package]
+name = "mere_memory"
+version = "0.0.0"
+authors = ["Matthew Brisebois <matthew.brisebois@holo.host>"]
+edition = "2018"
+license = "CAL-1.0"
+repository = "https://github.com/mjbrisebois/hc-zome-mere-memory"
+description = ""
+readme = "README.md"
+
+[lib]
+name = "mere_memory"
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+hdi = { workspace = true }
+mere_memory_types = { path = "../../../../../crates/mere_memory_types" }
+serde = { workspace = true }
+sha2 = { workspace = true }

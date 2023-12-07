@@ -1,0 +1,16 @@
+manifest_version: "1"
+name: Appstore Light
+description: The official Holochain App Store used by Launcher
+roles:
+  - name: appstore
+    provisioning:
+      strategy: create
+      deferred: false
+    dna:
+      bundled: ../dnas/appstore/workdir/appstore.dna
+  - name: portal
+    provisioning:
+      strategy: create
+      deferred: false
+    dna:
+      bundled: ../dnas/portal/workdir/portal.dna

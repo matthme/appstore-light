@@ -1,0 +1,23 @@
+[package]
+name = "appstore_api"
+version = "0.0.0"
+authors = ["Matthew Brisebois <matthew.brisebois@holo.host>"]
+edition = "2018"
+
+[lib]
+name = "appstore_api"
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+appstore = {path = "../../integrity/appstore"}
+hc_crud_caps = { workspace = true }
+hc_portal_types = { workspace = true }
+hc_utils = {path = "../../../../../crates/hc_utils"}
+hdk = { workspace = true }
+hex = "0"
+mere_memory_types = { path = "../../../../../crates/mere_memory_types" }
+rmp-serde = "1.1.1"
+rmpv = { workspace = true }
+serde = "1"
+serde_yaml = { workspace = true }
+thiserror = "1"

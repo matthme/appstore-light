@@ -1,0 +1,20 @@
+[package]
+name = "mere_memory_types"
+version = "0.86.0"
+authors = ["Matthew Brisebois <matthew.brisebois@holo.host>"]
+edition = "2018"
+license = "CAL-1.0"
+repository = "https://github.com/mjbrisebois/hc-zome-mere-memory"
+description = "A Holochain Zome for storing large or small byte values"
+readme = "README.md"
+
+[lib]
+name = "mere_memory_types"
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+getrandom = { version = "=0.2.7", features = ["custom"] } # temporary fix for compile error in
+                                                          # holochain v0.2.1
+hdi = { workspace = true }
+serde = { workspace = true }
+sha2 = { workspace = true }

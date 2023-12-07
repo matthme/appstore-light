@@ -1,0 +1,21 @@
+manifest_version: "1"
+name: appstore
+integrity:
+  origin_time: 2022-11-22T00:00:00.000000Z
+  network_seed: ~
+  properties: ~
+  zomes:
+    - name: appstore
+      bundled: ../../../target/wasm32-unknown-unknown/release/appstore.wasm
+    - name: mere_memory
+      bundled: ../../../target/wasm32-unknown-unknown/release/mere_memory.wasm
+coordinator:
+  zomes:
+    - name: appstore_api
+      bundled: ../../../target/wasm32-unknown-unknown/release/appstore_api.wasm
+      dependencies:
+        - name: appstore
+    - name: mere_memory_api
+      bundled: ../../../target/wasm32-unknown-unknown/release/mere_memory_api.wasm
+      dependencies:
+        - name: mere_memory

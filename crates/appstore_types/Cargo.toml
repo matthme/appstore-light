@@ -1,0 +1,18 @@
+[package]
+name = "appstore_types"
+version = "0.1.0"
+authors = ["Matthew Brisebois <matthew.brisebois@holo.host>"]
+edition = "2018"
+
+[lib]
+name = "appstore_types"
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+essence_payloads = { workspace = true }
+hc_crud_caps = { workspace = true }
+hdi = { workspace = true }
+rmpv = { workspace = true }
+serde = { workspace = true }
+serde_yaml = { workspace = true }
+thiserror = { workspace = true }

@@ -1,0 +1,25 @@
+[package]
+name = "hc_zome_mere_memory"
+version = "0.0.0"
+authors = ["Matthew Brisebois <matthew.brisebois@holo.host>"]
+edition = "2018"
+license = "CAL-1.0"
+repository = "https://github.com/mjbrisebois/hc-zome-mere-memory"
+description = ""
+readme = "README.md"
+
+[lib]
+name = "mere_memory_api"
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+essence_payloads = { workspace = true }
+mere_memory = { path = "../../integrity/mere_memory" }
+mere_memory_types = { path = "../../../../../crates/mere_memory_types" }
+hdk = { workspace = true }
+hex = "0"
+serde = { workspace = true }
+thiserror = "1"
+
+[dev-dependencies]
+rand = "0.8.3"
