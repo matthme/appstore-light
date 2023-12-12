@@ -4,9 +4,8 @@
   "private": true,
   "description": "Appstore light",
   "scripts": {
-    "build:happ": "npm run build:zomes && build:dna && hc app pack ./workdir",
+    "build:happ": "npm run build:zomes && npm run build:dna && hc app pack ./workdir",
     "build:dna": "hc dna pack ./dnas/appstore/workdir",
-    "build:zomes": "cargo build --release --target-dir target --target wasm32-unknown-unknown --workspace",
-    "fetch:portal": "curl -L --output dnas/portal/workdir/portal.dna https://github.com/holochain/portal-dna/releases/download/v0.9.2/portal.dna"
+    "build:zomes": "cargo build --release --target-dir target --target wasm32-unknown-unknown --workspace"
   }
 }

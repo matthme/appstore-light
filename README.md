@@ -11,7 +11,6 @@ nix develop
 
 Fetch the portal dna from a github release and build the happ
 ```
-npm run fetch:portal
 npm run build:happ
 ```
 

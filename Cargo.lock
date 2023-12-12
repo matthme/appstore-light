@@ -82,12 +82,12 @@ name = "appstore_api"
 version = "0.0.0"
 dependencies = [
  "appstore",
+ "appstore_types",
  "hc_crud_caps",
  "hc_portal_types",
  "hc_utils",
  "hdk",
  "hex",
- "mere_memory_types",
  "rmp-serde 1.1.2",
  "rmpv",
  "serde",
@@ -883,20 +883,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "hc_zome_mere_memory"
-version = "0.0.0"
-dependencies = [
- "essence_payloads",
- "hdk",
- "hex",
- "mere_memory",
- "mere_memory_types",
- "rand",
- "serde",
- "thiserror",
-]
-
-[[package]]
 name = "hdi"
 version = "0.3.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1416,16 +1402,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "5a634b1c61a95585bd15607c6ab0c4e5b226e695ff2800ba0cdccddf208c406c"
 dependencies = [
  "autocfg",
-]
-
-[[package]]
-name = "mere_memory"
-version = "0.0.0"
-dependencies = [
- "hdi",
- "mere_memory_types",
- "serde",
- "sha2",
 ]
 
 [[package]]

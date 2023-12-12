@@ -27,22 +27,6 @@ fn whoami(_: ()) -> ExternResult<Response<AgentInfo>> {
     Ok(composition(agent_info()?, VALUE_MD))
 }
 
-pub fn save_bytes(bytes: &Vec<u8>) -> AppResult<EntryHash> {
-    let response = call(
-        CallTargetCell::Local,
-        "mere_memory_api",
-        "save_bytes".into(),
-        None, // CapSecret
-        bytes,
-    )?;
-
-    let result = hc_utils::zome_call_response_as_result(response)?;
-    let essence_resp: Response<EntryHash> = result.decode()?;
-    debug!("Decoded result: {:#?}", essence_resp);
-
-    Ok(essence_resp.as_result()?)
-}
-
 // Publisher
 #[hdk_extern]
 fn create_publisher(input: publisher::CreateInput) -> ExternResult<EntityResponse<PublisherEntry>> {
@@ -116,11 +100,17 @@ fn create_app(input: app::CreateInput) -> ExternResult<EntityResponse<AppEntry>>
     Ok(composition(entity, ENTITY_MD))
 }
 
+/// Gets the latest AppEntry for the given id
 #[hdk_extern]
 fn get_app(input: GetEntityInput) -> ExternResult<EntityResponse<AppEntry>> {
     let entity = catch!(app::get(input));
 
     Ok(composition(entity, ENTITY_MD))
+}
+
+#[hdk_extern]
+fn get_record(hash: AnyDhtHash) -> ExternResult<Option<Record>> {
+    get(hash, GetOptions::default())
 }
 
 #[hdk_extern]

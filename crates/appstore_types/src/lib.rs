@@ -1,5 +1,4 @@
 use hdi::prelude::*;
-use std::collections::BTreeMap;
 
 pub type EntityId = ActionHash;
 
@@ -44,7 +43,7 @@ pub trait CommonFields<'a> {
     fn author(&'a self) -> &'a AgentPubKey;
     fn published_at(&'a self) -> &'a u64;
     fn last_updated(&'a self) -> &'a u64;
-    fn metadata(&'a self) -> &'a BTreeMap<String, serde_yaml::Value>;
+    fn metadata(&'a self) -> &'a Option<String>;
 }
 
 //
@@ -56,14 +55,14 @@ pub struct PublisherEntry {
     pub name: String,
     pub location: LocationTriplet,
     pub website: WebAddress,
-    pub icon: EntryHash,
+    pub icon_src: String, // base64 encoded dataURL of the icon
     pub editors: Vec<AgentPubKey>,
 
     // common fields
     pub author: AgentPubKey,
     pub published_at: u64,
     pub last_updated: u64,
-    pub metadata: BTreeMap<String, serde_yaml::Value>,
+    pub metadata: Option<String>,
 
     // optional
     pub description: Option<String>,
@@ -81,7 +80,7 @@ impl<'a> CommonFields<'a> for PublisherEntry {
     fn last_updated(&'a self) -> &'a u64 {
         &self.last_updated
     }
-    fn metadata(&'a self) -> &'a BTreeMap<String, serde_yaml::Value> {
+    fn metadata(&'a self) -> &'a Option<String> {
         &self.metadata
     }
 }
@@ -95,16 +94,18 @@ pub struct AppEntry {
     pub title: String,
     pub subtitle: String,
     pub description: String,
-    pub icon: EntryHash,
+    pub icon_src: String, // base64 encoded string
     pub publisher: EntityId,
-    pub devhub_address: WebHappConfig,
+    pub source: String,
+    pub hashes: String, // JSON string containing hashes of wasms and UI
+    pub changelog: Option<String>,
+    pub metadata: Option<String>,
     pub editors: Vec<AgentPubKey>,
 
     // common fields
     pub author: AgentPubKey,
     pub published_at: u64,
     pub last_updated: u64,
-    pub metadata: BTreeMap<String, serde_yaml::Value>,
 
     // optional
     pub deprecation: Option<DeprecationNotice>,
@@ -120,7 +121,7 @@ impl<'a> CommonFields<'a> for AppEntry {
     fn last_updated(&'a self) -> &'a u64 {
         &self.last_updated
     }
-    fn metadata(&'a self) -> &'a BTreeMap<String, serde_yaml::Value> {
+    fn metadata(&'a self) -> &'a Option<String> {
         &self.metadata
     }
 }

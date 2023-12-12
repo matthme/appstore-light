@@ -9,7 +9,7 @@ use crate::{
 use hdi::prelude::*;
 pub use mere_memory_types::MemoryEntry;
 
-const ICON_SIZE_LIMIT: u64 = 204_800;
+const ICON_SIZE_LIMIT: usize = 400_000; // Maximum characters for a dataURL of a 300 x 300 pixel image is around 360'000
 
 #[hdk_extern]
 fn validate(op: Op) -> ExternResult<ValidateCallbackResult> {
@@ -31,7 +31,7 @@ fn validate(op: Op) -> ExternResult<ValidateCallbackResult> {
                         ActionType::Create => validate_app_create(&op, content),
                         _ => Ok(ValidateCallbackResult::Valid),
                     },
-                    _ => Ok(ValidateCallbackResult::Valid),
+                    // _ => Ok(ValidateCallbackResult::Valid),
                 };
             } else {
                 if let Entry::CapGrant(_) = store_entry.entry {
@@ -58,8 +58,7 @@ fn validate(op: Op) -> ExternResult<ValidateCallbackResult> {
                         let original_entry: AppEntry =
                             register_update.original_entry.unwrap().try_into()?;
                         validate_app_update(&op, content, original_entry)
-                    }
-                    _ => Ok(ValidateCallbackResult::Valid),
+                    } // _ => Ok(ValidateCallbackResult::Valid),
                 };
             }
         }
@@ -77,7 +76,7 @@ fn validate(op: Op) -> ExternResult<ValidateCallbackResult> {
                         validate_publisher_delete(&op, original_entry)
                     }
                     EntryTypes::App(original_entry) => validate_app_delete(&op, original_entry),
-                    _ => Ok(ValidateCallbackResult::Valid),
+                    // _ => Ok(ValidateCallbackResult::Valid),
                 };
             }
         }
@@ -151,13 +150,9 @@ fn validate_common_publisher_fields(
     _op: &Op,
     entry: &PublisherEntry,
 ) -> ExternResult<ValidateCallbackResult> {
-    let memory: MemoryEntry = must_get_entry(entry.icon.to_owned())?.try_into()?;
-
-    if memory.memory_size > ICON_SIZE_LIMIT {
+    if entry.icon_src.chars().count() > ICON_SIZE_LIMIT {
         Ok(ValidateCallbackResult::Invalid(format!(
-            "PublisherEntry icon cannot be larger than {}KB ({} bytes)",
-            ICON_SIZE_LIMIT / 1024,
-            ICON_SIZE_LIMIT
+            "PublisherEntry may not exceed 300 x 300 pixels"
         )))
     } else {
         Ok(ValidateCallbackResult::Valid)
@@ -216,13 +211,9 @@ fn validate_publisher_delete(
 // App
 //
 fn validate_common_app_fields(_op: &Op, entry: &AppEntry) -> ExternResult<ValidateCallbackResult> {
-    let memory: MemoryEntry = must_get_entry(entry.icon.to_owned())?.try_into()?;
-
-    if memory.memory_size > ICON_SIZE_LIMIT {
+    if entry.icon_src.chars().count() > ICON_SIZE_LIMIT {
         Ok(ValidateCallbackResult::Invalid(format!(
-            "AppEntry icon cannot be larger than {}KB ({} bytes)",
-            ICON_SIZE_LIMIT / 1024,
-            ICON_SIZE_LIMIT
+            "AppEntry icon may not exceed 300 x 300 pixels"
         )))
     } else {
         Ok(ValidateCallbackResult::Valid)
