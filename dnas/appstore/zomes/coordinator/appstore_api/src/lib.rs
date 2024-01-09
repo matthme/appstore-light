@@ -147,7 +147,7 @@ fn get_my_apps(_: ()) -> ExternResult<Response<Vec<Entity<AppEntry>>>> {
 }
 
 #[hdk_extern]
-fn get_all_apps(_: ()) -> ExternResult<Response<Vec<Entity<AppEntry>>>> {
+fn get_non_deprecated_apps(_: ()) -> ExternResult<Response<Vec<Entity<AppEntry>>>> {
     let (_, pathhash) = hc_utils::path_base(ANCHOR_APPS);
     let collection =
         catch!(hc_crud::get_entities(&pathhash, LinkTypes::App, None).map_err(|e| e.into()));
@@ -155,6 +155,15 @@ fn get_all_apps(_: ()) -> ExternResult<Response<Vec<Entity<AppEntry>>>> {
         .into_iter()
         .filter(|entity: &Entity<AppEntry>| entity.content.deprecation.is_none())
         .collect();
+
+    Ok(composition(collection, ENTITY_COLLECTION_MD))
+}
+
+#[hdk_extern]
+fn get_all_apps(_: ()) -> ExternResult<Response<Vec<Entity<AppEntry>>>> {
+    let (_, pathhash) = hc_utils::path_base(ANCHOR_APPS);
+    let collection =
+        catch!(hc_crud::get_entities(&pathhash, LinkTypes::App, None).map_err(|e| e.into()));
 
     Ok(composition(collection, ENTITY_COLLECTION_MD))
 }
