@@ -10,7 +10,6 @@ pub use constants::{
     ANCHOR_AGENTS, ANCHOR_APPS, ANCHOR_PUBLISHERS, ENTITY_COLLECTION_MD, ENTITY_MD, VALUE_MD,
 };
 use hdk::prelude::*;
-pub use portal_types::{DnaZomeFunction, HostEntry};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct GetForAgentInput {

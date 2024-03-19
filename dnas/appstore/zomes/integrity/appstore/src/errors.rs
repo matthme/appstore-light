@@ -1,18 +1,23 @@
-use std::convert::Infallible;
-use hc_crud::UtilsError;
 use essence::EssenceError;
 use hdk::prelude::*;
+use std::convert::Infallible;
 use thiserror::Error;
-
-
 
 #[derive(Debug, Error)]
 pub enum AppError {
     #[error("Unexpected state: {0}")]
     UnexpectedStateError(String),
 
-    #[error("Agent '{4}' does not have the capability to call {1}::{2}->{3}( [args] ) because; {0}")]
-    UnauthorizedError(ZomeCallAuthorization, CellId, ZomeName, FunctionName, AgentPubKey),
+    #[error(
+        "Agent '{4}' does not have the capability to call {1}::{2}->{3}( [args] ) because; {0}"
+    )]
+    UnauthorizedError(
+        ZomeCallAuthorization,
+        CellId,
+        ZomeName,
+        FunctionName,
+        AgentPubKey,
+    ),
 
     #[error("{0}")]
     NetworkError(String),
@@ -24,11 +29,10 @@ pub enum AppError {
     DeserializeError(String),
 }
 
-
 #[derive(Debug, Error)]
 pub enum UserError {
     #[error(transparent)]
-    EntryNotFoundError(UtilsError),
+    EntryNotFoundError(WasmError),
 
     #[error("You already created a hApp with the name: {0}")]
     DuplicateHappNameError(String),
@@ -46,8 +50,6 @@ pub enum UserError {
     CustomError(String),
 }
 
-
-
 #[derive(Debug, Error)]
 pub enum ErrorKinds {
     #[error(transparent)]
@@ -57,7 +59,7 @@ pub enum ErrorKinds {
     UserError(UserError),
 
     #[error(transparent)]
-    DnaUtilsError(UtilsError),
+    DnaUtilsError(WasmError),
 
     #[error(transparent)]
     FailureResponseError(EssenceError),
@@ -86,18 +88,7 @@ impl From<UserError> for ErrorKinds {
 
 impl From<String> for ErrorKinds {
     fn from(error: String) -> Self {
-	ErrorKinds::AppError(AppError::UnexpectedStateError(error))
-    }
-}
-
-impl From<UtilsError> for ErrorKinds {
-    fn from(error: UtilsError) -> Self {
-	if let UtilsError::EntryNotFoundError(..) = error {
-	    UserError::EntryNotFoundError(error).into()
-	}
-	else {
-            ErrorKinds::DnaUtilsError(error)
-	}
+        ErrorKinds::AppError(AppError::UnexpectedStateError(error))
     }
 }
 
@@ -115,13 +106,12 @@ impl From<WasmError> for ErrorKinds {
 
 impl From<Infallible> for ErrorKinds {
     fn from(error: Infallible) -> Self {
-        ErrorKinds::AppError(AppError::UnexpectedStateError(format!("{:?}", error )))
+        ErrorKinds::AppError(AppError::UnexpectedStateError(format!("{:?}", error)))
     }
 }
 
-
 impl From<ErrorKinds> for WasmError {
     fn from(error: ErrorKinds) -> Self {
-        wasm_error!(WasmErrorInner::Guest( format!("{:?}", error ) ))
+        wasm_error!(WasmErrorInner::Guest(format!("{:?}", error)))
     }
 }

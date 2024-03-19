@@ -15,7 +15,6 @@ hc_crud_caps = { workspace = true }
 hc_utils = {path = "../../../../../crates/hc_utils"}
 hdi = { workspace = true }
 hdk = { workspace = true }
-mere_memory_types = { path = "../../../../../crates/mere_memory_types" }
 serde = { workspace = true }
 serde_yaml = { workspace = true }
 thiserror = "1"

@@ -12,7 +12,6 @@ crate-type = ["cdylib", "rlib"]
 appstore = { path = "../../integrity/appstore" }
 appstore_types = { path = "../../../../../crates/appstore_types" }
 hc_crud_caps = { workspace = true }
-hc_portal_types = { workspace = true }
 hc_utils = {path = "../../../../../crates/hc_utils"}
 hdk = { workspace = true }
 hex = "0"

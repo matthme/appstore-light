@@ -5,4 +5,5 @@ tests/*.dna
 tests/devhub/*.dna
 zomes/*.wasm
 bundled/*.dna
+*.dna
 *.happ

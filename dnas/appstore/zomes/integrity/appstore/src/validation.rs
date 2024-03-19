@@ -7,7 +7,6 @@ use crate::{
     PublisherEntry,
 };
 use hdi::prelude::*;
-pub use mere_memory_types::MemoryEntry;
 
 const ICON_SIZE_LIMIT: usize = 400_000; // Maximum characters for a dataURL of a 300 x 300 pixel image is around 360'000
 
